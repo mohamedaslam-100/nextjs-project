@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import Image from "next/image"
+import Link from "next/link"
 
 interface Character {
   id: number
@@ -254,9 +255,11 @@ export default function StarWarsApp() {
               height={40}
               className="w-8 h-8 sm:w-10 sm:h-10"
             />
-           <nav>
-            <a href="/"className="text-white font-bold text-lg sm:text-2xl">STAR WARS </a>
-            </nav>
+            <nav>
+        <Link href="/" className="text-white font-bold text-lg sm:text-2xl">
+          STAR WARS
+        </Link>
+      </nav>
             </div>
           <div className="flex items-center gap-4">
             <Button

@@ -1,6 +1,7 @@
 import { getFavoriteCharacters } from '@/libs/action';
 import CharacterGrid from '@/components/ui/characters/charactergrid';
 import { Character } from '@/types';
+import Link from 'next/link';
 
 export default async function FavoritesPage() {
   const favorites: Character[] = await getFavoriteCharacters();
@@ -11,9 +12,9 @@ export default async function FavoritesPage() {
       {favorites.length === 0 ? (
         <div className="text-center py-8">
           <p className="text-gray-600">No favorite characters yet.</p>
-          <a href="/" className="text-blue-600 hover:underline mt-2 inline-block">
-            Go back to all characters
-          </a>
+          <Link href="/" className="text-blue-600 hover:underline mt-2 inline-block">
+  Go back to all characters
+</Link>
         </div>
       ) : (
         <CharacterGrid initialCharacters={favorites} />

@@ -21,10 +21,6 @@ export default function RootLayout({
           <header className="bg-blue-600 p-4">
             <div className="container mx-auto flex justify-between items-center">
               <nav className="flex items-center gap-4">
-                {/* <a href="/" className="text-white hover:text-blue-200">Home</a> */}
-                {/* <a href="/favorites" className="text-white hover:text-blue-200">
-                  <Heart className="w-6 h-6" />
-                </a> */}
               </nav>
             </div>
           </header>

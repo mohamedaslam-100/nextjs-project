@@ -37,7 +37,7 @@ let characters: Character[] = [
 ];
 
 // Keep track of favorite character IDs
-let favoriteCharacterIds = new Set<number>([1, 2]); // Example: Luke and Leia are favorites
+const favoriteCharacterIds = new Set<number>([1, 2]); // Example: Luke and Leia are favorites
 
 export async function getCharacters(): Promise<Character[]> {
   try {
