@@ -22,21 +22,23 @@ const characters: Character[] = [
     height: "167",
     mass: "75"
   },
-  // Add more characters as needed
 ];
 
-
-// For getting a single character
-export async function GET(request: Request) {
+const getIdFromRequest = (request: Request): number | null => {
   const id = new URL(request.url).searchParams.get('id');
+  return id ? parseInt(id) : null;
+};
+
+export async function GET(request: Request) {
+  const id = getIdFromRequest(request);
   if (!id) {
     return NextResponse.json(characters);
   }
 
-  const character = characters.find(char => char.id === parseInt(id));
+  const character = characters.find(char => char.id === id);
   if (!character) {
     return NextResponse.json(
-      { error: 'Character not found' },
+      { error: `Character with ID ${id} not found` },
       { status: 404 }
     );
   }
@@ -44,15 +46,14 @@ export async function GET(request: Request) {
   return NextResponse.json(character);
 }
 
-// For updating a character
 export async function PUT(request: Request) {
   try {
     const body = await request.json();
     const index = characters.findIndex(char => char.id === body.id);
-    
+
     if (index === -1) {
       return NextResponse.json(
-        { error: 'Character not found' },
+        { error: `Character with ID ${body.id} not found` },
         { status: 404 }
       );
     }
@@ -60,6 +61,7 @@ export async function PUT(request: Request) {
     characters[index] = { ...characters[index], ...body };
     return NextResponse.json(characters[index]);
   } catch (error) {
+    console.error('Error updating character:', error);
     return NextResponse.json(
       { error: 'Failed to update character' },
       { status: 400 }
@@ -67,9 +69,8 @@ export async function PUT(request: Request) {
   }
 }
 
-// For deleting a character
 export async function DELETE(request: Request) {
-  const id = new URL(request.url).searchParams.get('id');
+  const id = getIdFromRequest(request);
   if (!id) {
     return NextResponse.json(
       { error: 'Character ID is required' },
@@ -77,14 +78,32 @@ export async function DELETE(request: Request) {
     );
   }
 
-  const index = characters.findIndex(char => char.id === parseInt(id));
+  const index = characters.findIndex(char => char.id === id);
   if (index === -1) {
     return NextResponse.json(
-      { error: 'Character not found' },
+      { error: `Character with ID ${id} not found` },
       { status: 404 }
     );
   }
 
   characters.splice(index, 1);
-  return NextResponse.json({ success: true });
+  return NextResponse.json({ success: true, message: `Character with ID ${id} deleted` });
+}
+
+export async function POST(request: Request) {
+  try {
+    const body = await request.json();
+    const newCharacter: Character = {
+      id: characters.length + 1,
+      ...body,
+    };
+    characters.push(newCharacter);
+    return NextResponse.json(newCharacter);
+  } catch (error) {
+    console.error('Error creating character:', error);
+    return NextResponse.json(
+      { error: 'Failed to create character' },
+      { status: 400 }
+    );
+  }
 }

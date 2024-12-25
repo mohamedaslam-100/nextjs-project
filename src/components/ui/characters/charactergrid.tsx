@@ -9,7 +9,7 @@ export default function CharacterGrid({
 }: { 
   initialCharacters: Character[] 
 }) {
-  const [characters, setCharacters] = useState(initialCharacters);
+  const [characters] = useState(initialCharacters);
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
   const [favorites, setFavorites] = useState<Character[]>([]);
 
